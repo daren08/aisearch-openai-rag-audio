@@ -67,8 +67,30 @@ async def create_app():
     current_directory = Path(__file__).parent
     app.add_routes([web.get('/', lambda _: web.FileResponse(current_directory / 'static/index.html'))])
     app.router.add_static('/', path=current_directory / 'static', name='static')
+
+    # Add WebSocket route
+    app.router.add_route('GET', '/ws', websocket_handler)
     
     return app
+
+# WebSocket handler
+async def websocket_handler(request):
+    ws = web.WebSocketResponse()
+    await ws.prepare(request)
+
+    async for msg in ws:
+        if msg.type == web.WSMsgType.TEXT:
+            data = msg.json()
+            try:
+                response = rtmt.handle_message(data)
+                await ws.send_json(response)
+            except ValueError as e:
+                await ws.send_json({"status": "error", "message": str(e)})
+        elif msg.type == web.WSMsgType.ERROR:
+            logger.error(f"WebSocket connection closed with exception {ws.exception()}")
+
+    logger.info("WebSocket connection closed")
+    return ws
 
 if __name__ == "__main__":
     host = "localhost"
