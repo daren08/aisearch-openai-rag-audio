@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import { GroundingFiles } from "@/components/ui/grounding-files";
-import { Button as MUIButton, TextField, Divider } from '@mui/material';
+import { Button as MUIButton, TextField, Divider, Snackbar, Alert, IconButton, Tooltip } from '@mui/material';
+import { Settings } from '@mui/icons-material';
 
 import GroundingFileView from "@/components/ui/grounding-file-view";
 import StatusMessage from "@/components/ui/status-message";
@@ -29,6 +30,9 @@ function App() {
         2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. 
         3. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know.`;
     const [systemMessage, setSystemMessage] = useState(defaultSystemMessage);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [showSettings, setShowSettings] = useState(false);
 
     const { startSession, addUserAudio, inputAudioBufferClear, sendSystemMessage } = useRealTime({
         onWebSocketOpen: () => console.log("WebSocket connection opened"),
@@ -72,6 +76,7 @@ function App() {
             setIsRecording(false);
         }
     };
+
     const handleSystemMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value === '') {
             setSystemMessage(defaultSystemMessage);
@@ -83,16 +88,32 @@ function App() {
 
     const handleSendSystemMessage = () => {
         sendSystemMessage(systemMessage);
+        setSnackbarMessage('Instructions updated successfully');
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
+    const handleToggleSettings = () => {
+        setShowSettings(prev => !prev);
     };
 
     const { t } = useTranslation();
 
     return (
         <div className="flex min-h-screen flex-col bg-gray-100 text-gray-900">
-            <div className="p-4 sm:absolute sm:left-4 sm:top-4">
+            <div className="p-4 sm:left-4 sm:top-4" style={{ display: 'flex', justifyContent: 'space-between' }} >
                 {/* <img src={logo} alt="Azure logo" className="h-16 w-16" /> */}
                 <img src="https://images.squarespace-cdn.com/content/67a59b2813e24e4e74f84777/1738906450340-QFO8Z38UYBJU1VF7HO6L/QTX.group.png?format=1000w&content-type=image%2Fpng"
                     alt="Qtx" className="h-16" />
+
+                <Tooltip title="Settings" placement="left" arrow>
+                    <IconButton onClick={handleToggleSettings} aria-label="settings">
+                        <Settings />
+                    </IconButton>
+                </Tooltip>
             </div>
             <main className="flex flex-grow flex-col items-center justify-center">
                 <h1 className="mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-7xl">
@@ -118,25 +139,27 @@ function App() {
                     <StatusMessage isRecording={isRecording} />
                 </div>
                 <Divider />
-                <div style={{ position: 'absolute', width: '100vh', top: '63%', display: isRecording ? 'none' : 'block' }}>
-                    <TextField
-                        fullWidth
-                        multiline
-                        rows={6}
-                        placeholder="Update the assistant instructions"
-                        label="Assistant Instructions"
-                        value={systemMessage}
-                        onChange={handleSystemMessageChange}
-                        variant="outlined"
-                        className="mb-4"
-                        disabled={isRecording}
-                    />
-                    <MUIButton onClick={handleSendSystemMessage} variant="contained" color="primary"
-                        sx={{ marginTop: '10px', width: '100%' }}
-                        disabled={isRecording}>
-                        Update
-                    </MUIButton>
-                </div>
+                {showSettings && (
+                    <div style={{ width: '100vh', display: isRecording ? 'none' : 'block' }}>
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={6}
+                            placeholder="Update the assistant instructions"
+                            label="Assistant Instructions"
+                            value={systemMessage}
+                            onChange={handleSystemMessageChange}
+                            variant="outlined"
+                            className="mb-4"
+                            disabled={isRecording}
+                        />
+                        <MUIButton onClick={handleSendSystemMessage} variant="contained" color="primary"
+                            sx={{ marginTop: '10px', width: '100%' }}
+                            disabled={isRecording}>
+                            Update
+                        </MUIButton>
+                    </div>
+                )}
                 <GroundingFiles files={groundingFiles} onSelected={setSelectedFile} />
             </main>
 
@@ -145,6 +168,20 @@ function App() {
             </footer>
 
             <GroundingFileView groundingFile={selectedFile} onClosed={() => setSelectedFile(null)} />
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert onClose={handleSnackbarClose} severity="success" sx={{
+                    width: '100%',
+                    backgroundColor: '#3db779', color: 'white'
+                }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
