@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Mic, MicOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import { GroundingFiles } from "@/components/ui/grounding-files";
-import { Button as MUIButton, TextField, Divider, Snackbar, Alert, IconButton, Tooltip } from '@mui/material';
+import { Button as MUIButton, TextField, Divider, Snackbar, Alert, IconButton, Tooltip, Typography } from '@mui/material';
 import { Settings } from '@mui/icons-material';
 
 import GroundingFileView from "@/components/ui/grounding-file-view";
@@ -16,9 +16,11 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 import { GroundingFile, ToolResult } from "./types";
 
-// import logo from "./assets/logo.svg";
+import SubHeader from "./Subheader";
+import Header from "./Header";
+import "./App.css";
 
-function App() {
+const App: React.FC = () => {
     const [isRecording, setIsRecording] = useState(false);
     const [groundingFiles, setGroundingFiles] = useState<GroundingFile[]>([]);
     const [selectedFile, setSelectedFile] = useState<GroundingFile | null>(null);
@@ -28,11 +30,34 @@ function App() {
         Always use the following step-by-step instructions to respond: 
         1. Always use the 'search' tool to check the knowledge base before answering a question. 
         2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. 
-        3. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know.`;
+        3. If user asked 'What would I know' you respond with the task instruction on the knowledge base.
+        4. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know.`;
     const [systemMessage, setSystemMessage] = useState(defaultSystemMessage);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [showSettings, setShowSettings] = useState(false);
+    // const [clientList, setClientList] = useState<any[]>([]);
+    // const [error, setError] = useState<string | null>(null);
+
+    // useEffect(() => {
+    //     const fetchClientList = async () => {
+    //         try {
+    //             const response = await fetch("http://localhost:8765/api/client-list");
+    //             const result = await response.json();
+
+    //             if (result.status === "success") {
+    //                 setClientList(result.data); // No need to parse again
+    //             } else {
+    //                 setError(result.message);
+    //             }
+    //         } catch (err) {
+    //             setError("Failed to fetch client list.");
+    //         }
+    //     };
+
+    //     fetchClientList();
+    // }, []);
+
 
     const { startSession, addUserAudio, inputAudioBufferClear, sendSystemMessage } = useRealTime({
         onWebSocketOpen: () => console.log("WebSocket connection opened"),
@@ -104,10 +129,12 @@ function App() {
 
     return (
         <div className="flex min-h-screen flex-col bg-gray-100 text-gray-900">
-            <div className="p-4 sm:left-4 sm:top-4" style={{ display: 'flex', justifyContent: 'space-between' }} >
-                {/* <img src={logo} alt="Azure logo" className="h-16 w-16" /> */}
-                <img src="https://images.squarespace-cdn.com/content/67a59b2813e24e4e74f84777/1738906450340-QFO8Z38UYBJU1VF7HO6L/QTX.group.png?format=1000w&content-type=image%2Fpng"
-                    alt="Qtx" className="h-16" />
+            <Header />
+            <SubHeader />
+            <div className="p-4 sm:left-4 sm:top-4" style={{ display: 'flex', justifyContent: 'end' }} >
+                {/* <img src="https://images.squarespace-cdn.com/content/67a59b2813e24e4e74f84777/1738906450340-QFO8Z38UYBJU1VF7HO6L/QTX.group.png?format=1000w&content-type=image%2Fpng"
+                    alt="Qtx" className="h-16" /> */}
+
 
                 <Tooltip title="Settings" placement="left" arrow>
                     <IconButton onClick={handleToggleSettings} aria-label="settings">
@@ -115,14 +142,52 @@ function App() {
                     </IconButton>
                 </Tooltip>
             </div>
-            <main className="flex flex-grow flex-col items-center justify-center">
-                <h1 className="mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-7xl">
+            <main className="flex flex-grow flex-col items-center justify-center" style={{ marginTop: '-5%' }}>
+                {/* <h1 className="mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-7xl">
                     {t("app.title")}
-                </h1>
+                </h1> */}
+                <div className="flex flex-col items-center justify-center text-center mb-10">
+                    <Typography className="mb-8 text-4xl font-bold md:text-7xl text-gray-900" variant="h2">
+                        {isRecording ?
+                            (
+                                <div>
+                                    <div>Listening to you</div>
+                                    <div>questions...</div>
+                                </div>
+                            ) :
+                            (
+                                <div>
+                                    <div>Ready to dive into</div>
+                                    <div>your data?</div>
+                                </div>
+
+                            )
+                        }
+                    </Typography>
+                </div>
+
+
+
+
                 <div className="mb-4 flex flex-col items-center justify-center">
+                    {isRecording && (
+                        <div className="flex items-end space-x-1 mt-2 h-10">
+                            {[...Array(30)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="w-1 bg-purple-900 opacity-80 rounded-full"
+                                    style={{
+                                        height: "20%", // base height for transition
+                                        animation: `barHeight${(i % 3) + 1} 1s ease-in-out infinite`,
+                                        animationDelay: `${i * 0.1}s`
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}
                     <Button
                         onClick={onToggleListening}
-                        className={`h-12 w-60 ${isRecording ? "bg-red-600 hover:bg-red-700" : "bg-purple-500 hover:bg-purple-600"}`}
+                        className={`h-12 w-60 ${isRecording ? "bg-purple-600 hover:bg-purple-700 text-white" : "bg-yellow-500 hover:bg-yellow-500 text-[#212121]"}`}
                         aria-label={isRecording ? t("app.stopRecording") : t("app.startRecording")}
                     >
                         {isRecording ? (
@@ -132,7 +197,9 @@ function App() {
                             </>
                         ) : (
                             <>
-                                <Mic className="mr-2 h-6 w-6" />
+                                <Mic className="mx-2 h-6 w-6" />
+                                {t("app.startSpeaking")}
+
                             </>
                         )}
                     </Button>
@@ -161,6 +228,7 @@ function App() {
                     </div>
                 )}
                 <GroundingFiles files={groundingFiles} onSelected={setSelectedFile} />
+
             </main>
 
             <footer className="py-4 text-center">
@@ -184,6 +252,6 @@ function App() {
             </Snackbar>
         </div>
     );
-}
+};
 
 export default App;

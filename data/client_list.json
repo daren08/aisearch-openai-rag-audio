@@ -1,0 +1,342 @@
+[
+  {
+    "clientId": "jeffrey-krause",
+    "name": "Jeffrey Krause",
+    "address": "853 Tyler Glen, Palmerville",
+    "carePlan": {
+      "preferences": {
+        "tea": "milk only",
+        "mobility": "Needs help getting in and out of bed",
+        "language": "French"
+      },
+      "medicalHistory": [
+        "Glaucoma",
+        "High blood pressure"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Apply ointment to cut on right arm",
+        "Remind to hydrate frequently",
+        "Remind to take 3PM medication"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Measure whom girl book reach church relate."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Opportunity according care read big address age today finish of send sell least."
+      }
+    ]
+  },
+  {
+    "clientId": "julie-mccoy",
+    "name": "Julie Mccoy",
+    "address": "Yellow Street, Alexandria",
+    "carePlan": {
+      "preferences": {
+        "tea": "one sugar",
+        "mobility": "Needs help getting in and out of bed",
+        "language": "Mandarin"
+      },
+      "medicalHistory": [
+        "Chronic pain",
+        "Arthritis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Assist with shower",
+        "Prepare lunch",
+        "Check blood pressure"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Attended to patient at home for routine wellness check, including monitoring of vital signs, medication administration, and assistance with hygiene. Patient was stable and cooperative throughout the visit, with no new concerns reported; follow-up scheduled as per care plan."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Noted increased swelling in lower limbs and mild shortness of breath; will escalate to RN for further assessment and recommend GP review."
+      }
+    ]
+  },
+  {
+    "clientId": "raymond-durham",
+    "name": "Raymond Durham",
+    "address": "75230 Campbell Ports Apt. 418, Burtonville",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Needs help getting in and out of bed",
+        "language": "Spanish"
+      },
+      "medicalHistory": [
+        "Arthritis",
+        "Asthma"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Assist with shower",
+        "Help with mobility exercises",
+        "Ensure medications are refilled"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Three hot rich month fire brother decide process see."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Force do focus specific drop agency spend positive old film agency."
+      }
+    ]
+  },
+  {
+    "clientId": "savannah-taylor",
+    "name": "Savannah Taylor",
+    "address": "729 Christopher Curve, Thomasmouth",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Independent mobility",
+        "language": "Italian"
+      },
+      "medicalHistory": [
+        "Glaucoma",
+        "Heart disease"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Prepare lunch",
+        "Assist with shower",
+        "Ensure medications are refilled"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Cultural three keep check magazine prevent region mother financial will young."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Answer rate own finally according that lot industry trade condition season onto."
+      }
+    ]
+  },
+  {
+    "clientId": "jeffery-rangel",
+    "name": "Jeffery Rangel",
+    "address": "3785 Bender Pine, Housefurt",
+    "carePlan": {
+      "preferences": {
+        "tea": "green tea",
+        "mobility": "Independent mobility",
+        "language": "Italian"
+      },
+      "medicalHistory": [
+        "Osteoporosis",
+        "Glaucoma"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Remind to hydrate frequently",
+        "Apply ointment to cut on right arm",
+        "Ensure medications are refilled"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Company forward fact not town sure woman work book pick window education number."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Seem sense here actually gun wish cup war high because."
+      }
+    ]
+  },
+  {
+    "clientId": "michelle-nelson",
+    "name": "Michelle Nelson",
+    "address": "94903 William Causeway Apt. 811, North Amber",
+    "carePlan": {
+      "preferences": {
+        "tea": "one sugar",
+        "mobility": "Independent mobility",
+        "language": "Spanish"
+      },
+      "medicalHistory": [
+        "Mild dementia",
+        "Arthritis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Remind to hydrate frequently",
+        "Monitor glucose level",
+        "Prepare lunch"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "While sea possible try by business take window out."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Different firm laugh majority grow if friend hear pick once TV operation stay month."
+      }
+    ]
+  },
+  {
+    "clientId": "logan-yoder-md",
+    "name": "Logan Yoder MD",
+    "address": "1913 Christine Streets Suite 026, South Claytonfort",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Uses walker",
+        "language": "Italian"
+      },
+      "medicalHistory": [
+        "Heart disease",
+        "Osteoporosis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Prepare lunch",
+        "Check blood pressure",
+        "Remind to take 3PM medication"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Method security official effect office least fast drop key after at."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Who head almost event responsibility dark story mind especially development machine with."
+      }
+    ]
+  },
+  {
+    "clientId": "christopher-stanley",
+    "name": "Christopher Stanley",
+    "address": "6560 Williams Prairie, Port Michael",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Uses walker",
+        "language": "English"
+      },
+      "medicalHistory": [
+        "Chronic pain",
+        "Osteoporosis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Prepare lunch",
+        "Help with mobility exercises",
+        "Remind to hydrate frequently"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Control economy option enter position her."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Thank get treatment answer rich ahead bag more."
+      }
+    ]
+  },
+  {
+    "clientId": "april-watson",
+    "name": "April Watson",
+    "address": "9147 Patel Coves Apt. 440, South Holly",
+    "carePlan": {
+      "preferences": {
+        "tea": "no sugar",
+        "mobility": "Uses walker",
+        "language": "French"
+      },
+      "medicalHistory": [
+        "Mild dementia",
+        "Hearing loss"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Remind to hydrate frequently",
+        "Apply ointment to cut on right arm",
+        "Remind to take 3PM medication"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "She individual three find other upon physical subject mention north wonder develop."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Later total second explain feel probably."
+      }
+    ]
+  },
+  {
+    "clientId": "heather-mercado",
+    "name": "Heather Mercado",
+    "address": "612 Calvin Grove Apt. 224, Johnbury",
+    "carePlan": {
+      "preferences": {
+        "tea": "green tea",
+        "mobility": "Independent mobility",
+        "language": "French"
+      },
+      "medicalHistory": [
+        "High blood pressure",
+        "Diabetes"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "2025-04-10",
+      "tasks": [
+        "Ensure medications are refilled",
+        "Assist with shower",
+        "Check blood pressure"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "2025-04-09",
+        "notes": "Rich series brother me stuff third thought difficult middle about too area down."
+      },
+      {
+        "date": "2025-04-08",
+        "notes": "Eight civil seven low write whatever behind career have floor."
+      }
+    ]
+  }
+]

@@ -3,8 +3,8 @@
         "title": "Talk to your data",
         "footer": "",
         "stopRecording": "Stop recording",
-        "startRecording": "Start recording",
-        "stopConversation": "Stop conversation"
+        "startSpeaking": "Start Speaking",
+        "stopConversation": "Stop Conversation"
     },
     "status": {
         "notRecordingMessage": "Ask anything about Qtx",
