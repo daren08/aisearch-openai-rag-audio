@@ -1,0 +1,34 @@
+ {
+    "clientId": "4",
+    "name": "Logan Yoder MD",
+    "address": "1913 Christine Streets Suite 026, South Claytonfort",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Uses walker",
+        "language": "Italian"
+      },
+      "medicalHistory": [
+        "Heart disease",
+        "Osteoporosis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Prepare lunch",
+        "Check blood pressure",
+        "Remind to take 3PM medication"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "Method security official effect office least fast drop key after at."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Who head almost event responsibility dark story mind especially development machine with."
+      }
+    ]
+  }

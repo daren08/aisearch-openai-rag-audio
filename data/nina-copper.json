@@ -1,0 +1,34 @@
+{
+  "clientId": "11",
+  "name": "Nina Cooper",
+  "address": "1025 Emerald Ridge, West Lonsdale",
+  "carePlan": {
+    "preferences": {
+      "tea": "herbal",
+      "mobility": "Uses wheelchair indoors",
+      "language": "English"
+    },
+    "medicalHistory": [
+      "Diabetes",
+      "Mild dementia"
+    ]
+  },
+  "taskInstructions": {
+    "visitDate": "10-04-2025",
+    "tasks": [
+      "Monitor blood sugar level before lunch",
+      "Assist with hygiene routine",
+      "Prepare a low-sugar meal"
+    ]
+  },
+  "lastVisitNotes": [
+    {
+      "date": "09-04-2025",
+      "notes": "Blood sugar slightly elevated; patient reminded about dietary plan."
+    },
+    {
+      "date": "08-04-2025",
+      "notes": "Patient was cooperative. Assisted with daily routine without issues."
+    }
+  ]
+}
