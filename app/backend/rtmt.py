@@ -175,6 +175,10 @@ class RTMiddleTier:
                     session["tool_choice"] = "auto" if len(self.tools) > 0 else "none"
                     session["tools"] = [tool.schema for tool in self.tools.values()]
                     updated_message = json.dumps(message)
+                case "system_message":
+                    self.system_message = message["system_message"]
+                    logger.info(f"System message updated: {self.system_message}")
+                    updated_message = None  # Do not forward this message to the server
 
         return updated_message
 

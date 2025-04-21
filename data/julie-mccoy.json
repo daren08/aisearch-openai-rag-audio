@@ -1,0 +1,34 @@
+{
+    "clientId": "10",
+    "name": "Julie Mccoy",
+    "address": "Yellow Street, Alexandria",
+    "carePlan": {
+      "preferences": {
+        "tea": "one sugar",
+        "mobility": "Needs help getting in and out of bed",
+        "language": "Mandarin"
+      },
+      "medicalHistory": [
+        "Chronic pain",
+        "Arthritis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Assist with shower",
+        "Prepare lunch",
+        "Check blood pressure"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "Attended to patient at home for routine wellness check, including monitoring of vital signs, medication administration, and assistance with hygiene. Patient was stable and cooperative throughout the visit, with no new concerns reported; follow-up scheduled as per care plan."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Noted increased swelling in lower limbs and mild shortness of breath; will escalate to RN for further assessment and recommend GP review."
+      }
+    ]
+  }
