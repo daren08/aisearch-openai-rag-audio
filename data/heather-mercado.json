@@ -1,0 +1,34 @@
+{
+    "clientId": "1",
+    "name": "Heather Mercado",
+    "address": "612 Calvin Grove Apt. 224, Johnbury",
+    "carePlan": {
+      "preferences": {
+        "tea": "green tea",
+        "mobility": "Independent mobility",
+        "language": "French"
+      },
+      "medicalHistory": [
+        "High blood pressure",
+        "Diabetes"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Ensure medications are refilled",
+        "Assist with shower",
+        "Check blood pressure"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "Rich series brother me stuff third thought difficult middle about too area down."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Eight civil seven low write whatever behind career have floor."
+      }
+    ]
+  }

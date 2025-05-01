@@ -1,0 +1,34 @@
+{
+    "clientId": "3",
+    "name": "Christopher Stanley",
+    "address": "6560 Williams Prairie, Port Michael",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Uses walker",
+        "language": "English"
+      },
+      "medicalHistory": [
+        "Chronic pain",
+        "Osteoporosis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Prepare lunch",
+        "Help with mobility exercises",
+        "Remind to hydrate frequently"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "Control economy option enter position her."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Thank get treatment answer rich ahead bag more."
+      }
+    ]
+  }

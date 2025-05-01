@@ -8,13 +8,13 @@ type Properties = {
 export default function StatusMessage({ isRecording }: Properties) {
     const { t } = useTranslation();
     if (!isRecording) {
-        return <p className="text mb-4 mt-6">{t("status.notRecordingMessage")}</p>;
+        return <p className="text mb-4 mt-6" style={{ color: '#9E9E9E' }}>{t("status.notRecordingMessage")}</p>;
     }
 
     return (
         <div className="flex items-center">
             <div className="relative h-6 w-6 overflow-hidden">
-                <div className="absolute inset-0 flex items-end justify-around">
+                {/* <div className="absolute inset-0 flex items-end justify-around">
                     {[...Array(4)].map((_, i) => (
                         <div
                             key={i}
@@ -25,9 +25,9 @@ export default function StatusMessage({ isRecording }: Properties) {
                             }}
                         />
                     ))}
-                </div>
+                </div> */}
             </div>
-            <p className="text mb-4 ml-2 mt-6">{t("status.conversationInProgress")}</p>
+            <p className="text mb-4 ml-2 mt-6" style={{ color: '#9E9E9E' }}>{t("status.conversationInProgress")}</p>
         </div>
     );
 }

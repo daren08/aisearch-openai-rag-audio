@@ -1,0 +1,34 @@
+ {
+    "clientId": "2",
+    "name": "April Watson",
+    "address": "9147 Patel Coves Apt. 440, South Holly",
+    "carePlan": {
+      "preferences": {
+        "tea": "no sugar",
+        "mobility": "Uses walker",
+        "language": "French"
+      },
+      "medicalHistory": [
+        "Mild dementia",
+        "Hearing loss"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Remind to hydrate frequently",
+        "Apply ointment to cut on right arm",
+        "Remind to take 3PM medication"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "She individual three find other upon physical subject mention north wonder develop."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Later total second explain feel probably."
+      }
+    ]
+  }

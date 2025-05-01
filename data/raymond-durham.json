@@ -1,0 +1,34 @@
+{
+    "clientId": "8",
+    "name": "Raymond Durham",
+    "address": "75230 Campbell Ports Apt. 418, Burtonville",
+    "carePlan": {
+      "preferences": {
+        "tea": "two sugars",
+        "mobility": "Needs help getting in and out of bed",
+        "language": "Spanish"
+      },
+      "medicalHistory": [
+        "Arthritis",
+        "Asthma"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Assist with shower",
+        "Help with mobility exercises",
+        "Ensure medications are refilled"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "Three hot rich month fire brother decide process see."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Force do focus specific drop agency spend positive old film agency."
+      }
+    ]
+  }

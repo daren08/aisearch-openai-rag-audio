@@ -1,0 +1,34 @@
+{
+  "clientId": "12",
+  "name": "Keith Holloway",
+  "address": "4472 Cedar Bay Road, East Riverview",
+  "carePlan": {
+    "preferences": {
+      "tea": "black tea, no sugar",
+      "mobility": "Walks with cane",
+      "language": "German"
+    },
+    "medicalHistory": [
+      "Hypertension",
+      "Arthritis in knees"
+    ]
+  },
+  "taskInstructions": {
+    "visitDate": "10-04-2025",
+    "tasks": [
+      "Check blood pressure",
+      "Assist with dressing",
+      "Ensure walking aid is within reach"
+    ]
+  },
+  "lastVisitNotes": [
+    {
+      "date": "09-04-2025",
+      "notes": "Blood pressure within normal range. Client requested help reorganizing bedside items."
+    },
+    {
+      "date": "08-04-2025",
+      "notes": "Reported mild knee pain; provided support during light stretching exercises."
+    }
+  ]
+}
