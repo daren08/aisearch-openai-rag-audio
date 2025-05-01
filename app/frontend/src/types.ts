@@ -70,6 +70,12 @@ export type ExtensionMiddleTierToolResponse = {
 };
 
 export type ToolResult = {
+    tool_calls?: {
+        name: string;
+        arguments: {
+            [key: string]: any;
+        };
+    }[];
     sources: { chunk_id: string; title: string; chunk: string }[];
 };
 

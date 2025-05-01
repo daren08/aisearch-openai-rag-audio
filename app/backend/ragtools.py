@@ -1,5 +1,6 @@
 import re
 from typing import Any
+import aiohttp
 
 from azure.core.credentials import AzureKeyCredential
 from azure.identity import DefaultAzureCredential
@@ -48,6 +49,49 @@ _grounding_tool_schema = {
         "additionalProperties": False
     }
 }
+
+_send_details_tool_schema = {
+    "type": "function",
+    "name": "sendDetails",
+    "description": "Send a note or detail to an external system. Only use this when the user wants to send or submit something.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "details": {
+                "type": "string",
+                "description": "The text details or message to be sent to the system"
+            }
+        },
+        "required": ["details"],
+        "additionalProperties": False
+    }
+}
+
+_update_visit_tool_schema = {
+    "type": "function",
+    "name": "updateClientVisit",
+    "description": "Update the visit date and visit notes for a client.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "clientId": {
+                "type": "string",
+                "description": "The unique ID or name of the client (e.g., 'julie-mccoy')"
+            },
+            "visitDate": {
+                "type": "string",
+                "description": "The visit date in YYYY-MM-DD format"
+            },
+            "visitNotes": {
+                "type": "string",
+                "description": "The notes for the visit"
+            }
+        },
+        "required": ["clientId", "visitDate", "visitNotes"]
+    }
+}
+
+
 
 async def _search_tool(
     search_client: SearchClient, 
@@ -100,6 +144,34 @@ async def _report_grounding_tool(search_client: SearchClient, identifier_field: 
         docs.append({"chunk_id": r[identifier_field], "title": r[title_field], "chunk": r[content_field]})
     return ToolResult({"sources": docs}, ToolResultDirection.TO_CLIENT)
 
+# async def _send_details_tool(args: Any) -> ToolResult:
+#     details = args.get("details")
+
+#     if not details:
+#         return ToolResult("Missing 'details' in tool input", ToolResultDirection.TO_CLIENT)
+
+#     api_url = "https://wa-transl-dev-api-aueast-001-cphse7cqhqfve2bc.australiaeast-01.azurewebsites.net/api/user/TestSend"
+
+#     try:
+#         async with aiohttp.ClientSession() as session:
+#             async with session.post(api_url, json={"details": details}) as resp:
+#                 response_text = await resp.text()
+#                 return ToolResult(f"Details sent successfully. API response: {response_text}", ToolResultDirection.TO_CLIENT)
+#     except Exception as e:
+#         return ToolResult(f"Failed to send details to API: {str(e)}", ToolResultDirection.TO_CLIENT)
+async def _send_details_tool(args: Any) -> ToolResult:
+    details = args.get("details")
+    return ToolResult({"tool_name": "sendDetails", "output": {"details": details}}, ToolResultDirection.TO_CLIENT)
+
+async def _update_visit_tool(args: Any) -> ToolResult:
+    return ToolResult({
+        "tool_name": "updateClientVisit",
+        "output": args
+    }, ToolResultDirection.TO_CLIENT)
+
+
+
+
 def attach_rag_tools(rtmt: RTMiddleTier,
     credentials: AzureKeyCredential | DefaultAzureCredential,
     search_endpoint: str, search_index: str,
@@ -116,3 +188,7 @@ def attach_rag_tools(rtmt: RTMiddleTier,
 
     rtmt.tools["search"] = Tool(schema=_search_tool_schema, target=lambda args: _search_tool(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
     rtmt.tools["report_grounding"] = Tool(schema=_grounding_tool_schema, target=lambda args: _report_grounding_tool(search_client, identifier_field, title_field, content_field, args))
+    rtmt.tools["sendDetails"] = Tool(schema=_send_details_tool_schema, target=_send_details_tool)
+    rtmt.tools["updateClientVisit"] = Tool(schema=_update_visit_tool_schema, target=_update_visit_tool)
+
+

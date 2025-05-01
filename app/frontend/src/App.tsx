@@ -24,14 +24,24 @@ const App: React.FC = () => {
     const [isRecording, setIsRecording] = useState(false);
     const [groundingFiles, setGroundingFiles] = useState<GroundingFile[]>([]);
     const [selectedFile, setSelectedFile] = useState<GroundingFile | null>(null);
-    const defaultSystemMessage = `You are a helpful assistant. Only answer questions based on information you searched in the knowledge base, accessible with the 'search' tool. 
-        The user is listening to answers with audio, so it's *super* important that answers are as short as possible, a single sentence if at all possible. 
-        Never read file names or source names or keys out loud. 
-        Always use the following step-by-step instructions to respond: 
-        1. Always use the 'search' tool to check the knowledge base before answering a question. 
-        2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. 
-        3. If user asked 'What would I know' you respond with the task instruction on the knowledge base.
-        4. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know.`;
+    // const defaultSystemMessage = `You are a helpful assistant. Only answer questions based on information you searched in the knowledge base, accessible with the 'search' tool. 
+    //     The user is listening to answers with audio, so it's *super* important that answers are as short as possible, a single sentence if at all possible. 
+    //     Never read file names or source names or keys out loud. 
+    //     Always use the following step-by-step instructions to respond: 
+    //     1. Always use the 'search' tool to check the knowledge base before answering a question. 
+    //     2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. 
+    //     3. If user asked 'What would I know' you respond with the task instruction on the knowledge base.
+    //     4. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know.`;
+    const defaultSystemMessage = `
+You are a helpful assistant. Only answer questions based on information you searched in the knowledge base, accessible with the 'search' tool.
+The user is listening to answers with audio, so it's *super* important that answers are as short as possible, a single sentence if at all possible.
+Never read file names or source names or keys out loud.
+Always use the following step-by-step instructions to respond:
+1. Use 'search' to check the knowledge base.
+2. Use 'report_grounding' to report sources.
+3. If the user says something like "send this to the system" or "submit a report", use the 'sendDetails' tool with their message as the details.
+4. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know.
+`;
     const [systemMessage, setSystemMessage] = useState(defaultSystemMessage);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -70,10 +80,49 @@ const App: React.FC = () => {
         onReceivedInputAudioBufferSpeechStarted: () => {
             stopAudioPlayer();
         },
-        onReceivedExtensionMiddleTierToolResponse: message => {
+        onReceivedExtensionMiddleTierToolResponse: async (message) => {
             const result: ToolResult = JSON.parse(message.tool_result);
 
-            console.log(result);
+
+            console.log("🧠 Tool result received:", result);
+
+            // Check if it's a sendDetails tool call
+            const toolCall = result.tool_calls?.[0] ?? (result as any); // fallback if tool_call comes as flat object
+
+            if (toolCall?.name === "updateClientVisit" || toolCall?.tool_name === "updateClientVisit") {
+                // const details = toolCall.arguments?.details ?? toolCall.output?.details;
+
+                // if (!details) {
+                //     console.warn("⚠️ No 'details' to send.");
+                //     return;
+                // }
+
+                // try {
+                //     const response = await fetch("https://wa-transl-dev-api-aueast-001-cphse7cqhqfve2bc.australiaeast-01.azurewebsites.net/api/user/TestSend", {
+                //         method: "POST",
+                //         headers: {
+                //             "Content-Type": "application/json"
+                //         },
+                //         body: JSON.stringify({ details })
+                //     });
+
+                //     const resultText = await response.text();
+                //     console.log("✅ API Response:", resultText);
+
+                //     setSnackbarMessage("✅ Sent to API successfully!");
+                // } catch (err) {
+                //     console.error("❌ Failed to send to API:", err);
+                //     setSnackbarMessage("❌ API request failed.");
+                // } finally {
+                //     setSnackbarOpen(true);
+                // }
+
+                const { clientId, visitDate, visitNotes } = toolCall.arguments ?? toolCall.output ?? {};
+
+                console.log(clientId, visitDate, visitNotes);
+
+                return;
+            }
 
             const files: GroundingFile[] = result.sources.map(x => {
                 return { id: x.chunk_id, name: x.title, content: x.chunk };
