@@ -9,7 +9,8 @@ import {
     ResponseDone,
     SessionUpdateCommand,
     ExtensionMiddleTierToolResponse,
-    ResponseInputAudioTranscriptionCompleted
+    ResponseInputAudioTranscriptionCompleted,
+    SystemMessageCommand
 } from "@/types";
 
 type Parameters = {
@@ -99,6 +100,15 @@ export default function useRealTime({
         sendJsonMessage(command);
     };
 
+    const sendSystemMessage = (systemMessage: string) => {
+        const command: SystemMessageCommand = {
+            type: "system_message",
+            system_message: systemMessage
+        };
+
+        sendJsonMessage(command);
+    };
+
     const onMessageReceived = (event: MessageEvent<any>) => {
         onWebSocketMessage?.(event);
 
@@ -135,5 +145,5 @@ export default function useRealTime({
         }
     };
 
-    return { startSession, addUserAudio, inputAudioBufferClear };
+    return { startSession, addUserAudio, inputAudioBufferClear, sendSystemMessage };
 }

@@ -1,0 +1,34 @@
+{
+    "clientId": "6",
+    "name": "Jeffery Rangel",
+    "address": "3785 Bender Pine, Housefurt",
+    "carePlan": {
+      "preferences": {
+        "tea": "green tea",
+        "mobility": "Independent mobility",
+        "language": "Italian"
+      },
+      "medicalHistory": [
+        "Osteoporosis",
+        "Glaucoma"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Remind to hydrate frequently",
+        "Apply ointment to cut on right arm",
+        "Ensure medications are refilled"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "Company forward fact not town sure woman work book pick window education number."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Seem sense here actually gun wish cup war high because."
+      }
+    ]
+  }

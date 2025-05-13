@@ -1,0 +1,34 @@
+{
+    "clientId": "5",
+    "name": "Michelle Nelson",
+    "address": "94903 William Causeway Apt. 811, North Amber",
+    "carePlan": {
+      "preferences": {
+        "tea": "one sugar",
+        "mobility": "Independent mobility",
+        "language": "Spanish"
+      },
+      "medicalHistory": [
+        "Mild dementia",
+        "Arthritis"
+      ]
+    },
+    "taskInstructions": {
+      "visitDate": "10-04-2025",
+      "tasks": [
+        "Remind to hydrate frequently",
+        "Monitor glucose level",
+        "Prepare lunch"
+      ]
+    },
+    "lastVisitNotes": [
+      {
+        "date": "09-04-2025",
+        "notes": "While sea possible try by business take window out."
+      },
+      {
+        "date": "08-04-2025",
+        "notes": "Different firm laugh majority grow if friend hear pick once TV operation stay month."
+      }
+    ]
+  }
