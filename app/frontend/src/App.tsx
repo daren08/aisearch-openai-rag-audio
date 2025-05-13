@@ -5,10 +5,11 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { GroundingFiles } from "@/components/ui/grounding-files";
 import { Button as MUIButton, TextField, Divider, Snackbar, Alert, IconButton, Tooltip, Typography } from '@mui/material';
-import { Settings } from '@mui/icons-material';
+import { ManageAccounts, Storage } from '@mui/icons-material';
 
 import GroundingFileView from "@/components/ui/grounding-file-view";
 import StatusMessage from "@/components/ui/status-message";
+import DocumentList from "@/components/ui/document-list";
 
 import useRealTime from "@/hooks/useRealtime";
 import useAudioRecorder from "@/hooks/useAudioRecorder";
@@ -18,12 +19,15 @@ import { GroundingFile, ToolResult } from "./types";
 
 import SubHeader from "./Subheader";
 import Header from "./Header";
+import DocumentUploader from "@/components/ui/upload-documents";
+
 import "./App.css";
 
 const App: React.FC = () => {
     const [isRecording, setIsRecording] = useState(false);
     const [groundingFiles, setGroundingFiles] = useState<GroundingFile[]>([]);
     const [selectedFile, setSelectedFile] = useState<GroundingFile | null>(null);
+    const [showDocumentList, setShowDocumentList] = useState(false);
     const defaultSystemMessage = `You are a helpful assistant. Only answer questions based on information you searched in the knowledge base, accessible with the 'search' tool. 
         The user is listening to answers with audio, so it's *super* important that answers are as short as possible, a single sentence if at all possible. 
         Never read file names or source names or keys out loud. 
@@ -36,28 +40,7 @@ const App: React.FC = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [showSettings, setShowSettings] = useState(false);
-    // const [clientList, setClientList] = useState<any[]>([]);
-    // const [error, setError] = useState<string | null>(null);
-
-    // useEffect(() => {
-    //     const fetchClientList = async () => {
-    //         try {
-    //             const response = await fetch("http://localhost:8765/api/client-list");
-    //             const result = await response.json();
-
-    //             if (result.status === "success") {
-    //                 setClientList(result.data); // No need to parse again
-    //             } else {
-    //                 setError(result.message);
-    //             }
-    //         } catch (err) {
-    //             setError("Failed to fetch client list.");
-    //         }
-    //     };
-
-    //     fetchClientList();
-    // }, []);
-
+    const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
     const { startSession, addUserAudio, inputAudioBufferClear, sendSystemMessage } = useRealTime({
         onWebSocketOpen: () => console.log("WebSocket connection opened"),
@@ -132,20 +115,29 @@ const App: React.FC = () => {
             <Header />
             <SubHeader />
             <div className="p-4 sm:left-4 sm:top-4" style={{ display: 'flex', justifyContent: 'end' }} >
-                {/* <img src="https://images.squarespace-cdn.com/content/67a59b2813e24e4e74f84777/1738906450340-QFO8Z38UYBJU1VF7HO6L/QTX.group.png?format=1000w&content-type=image%2Fpng"
-                    alt="Qtx" className="h-16" /> */}
-
-
-                <Tooltip title="Settings" placement="left" arrow>
+                {/* <Tooltip title="Upload Document" placement="bottom" arrow>
+                    <IconButton onClick={() => setUploadModalOpen(true)} aria-label="upload">
+                        <CloudUpload />
+                    </IconButton>
+                </Tooltip> */}
+                {/* <button
+                    onClick={() => setShowDocumentList(true)}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                    Show Documents
+                </button> */}
+                <Tooltip title="Manage Documents" placement="bottom" arrow>
+                    <IconButton onClick={() => setShowDocumentList(true)} aria-label="manage-documents">
+                        <Storage />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Settings" placement="bottom" arrow>
                     <IconButton onClick={handleToggleSettings} aria-label="settings">
-                        <Settings />
+                        <ManageAccounts />
                     </IconButton>
                 </Tooltip>
             </div>
             <main className="flex flex-grow flex-col items-center justify-center" style={{ marginTop: '-5%' }}>
-                {/* <h1 className="mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-7xl">
-                    {t("app.title")}
-                </h1> */}
                 <div className="flex flex-col items-center justify-center text-center mb-10">
                     <Typography className="mb-8 text-4xl font-bold md:text-7xl text-gray-900" variant="h2">
                         {isRecording ?
@@ -165,9 +157,6 @@ const App: React.FC = () => {
                         }
                     </Typography>
                 </div>
-
-
-
 
                 <div className="mb-4 flex flex-col items-center justify-center">
                     {isRecording && (
@@ -205,7 +194,13 @@ const App: React.FC = () => {
                     </Button>
                     <StatusMessage isRecording={isRecording} />
                 </div>
+
+                <DocumentList open={showDocumentList} onClose={() => setShowDocumentList(false)} />
+
                 <Divider />
+
+                <DocumentUploader open={uploadModalOpen} onClose={() => setUploadModalOpen(false)} />
+
                 {showSettings && (
                     <div style={{ width: '100vh', display: isRecording ? 'none' : 'block' }}>
                         <TextField
@@ -227,6 +222,7 @@ const App: React.FC = () => {
                         </MUIButton>
                     </div>
                 )}
+
                 <GroundingFiles files={groundingFiles} onSelected={setSelectedFile} />
 
             </main>
