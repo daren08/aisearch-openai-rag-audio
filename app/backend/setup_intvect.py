@@ -41,7 +41,15 @@ from azure.search.documents.indexes.models import (
 from azure.storage.blob import BlobServiceClient
 from dotenv import load_dotenv
 from rich.logging import RichHandler
+# Logging config — runs once globally
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(message)s",
+    datefmt="[%X]",
+    handlers=[RichHandler(rich_tracebacks=True)]
+)
 
+logger = logging.getLogger("voicerag")
 
 def load_azd_env():
     """Get path to current azd env file and load file using python-dotenv"""
@@ -88,6 +96,9 @@ def setup_index(azure_credential, index_name, azure_search_endpoint, azure_stora
                     SimpleField(name="parent_id", type=SearchFieldDataType.String, filterable=True),
                     SearchableField(name="title"),
                     SearchableField(name="chunk"),
+                    # Add Name and Address as searchable fields
+                    SearchableField(name="Name"),
+                    SearchableField(name="Address"),
                     SearchField(
                         name="text_vector", 
                         type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
@@ -161,7 +172,10 @@ def setup_index(azure_credential, index_name, azure_search_endpoint, azure_stora
                             mappings=[
                                 InputFieldMappingEntry(name="chunk", source="/document/pages/*"),
                                 InputFieldMappingEntry(name="text_vector", source="/document/pages/*/text_vector"),
-                                InputFieldMappingEntry(name="title", source="/document/metadata_storage_name")
+                                InputFieldMappingEntry(name="title", source="/document/metadata_storage_name"),
+                                # Add mappings for Name and Address
+                                InputFieldMappingEntry(name="Name", source="/document/Name"),
+                                InputFieldMappingEntry(name="Address", source="/document/Address")
                             ]
                         )
                     ],
@@ -184,40 +198,58 @@ def setup_index(azure_credential, index_name, azure_search_endpoint, azure_stora
             )
         )
 
-def upload_documents(azure_credential, indexer_name, azure_search_endpoint, azure_storage_endpoint, azure_storage_container):
-    indexer_client = SearchIndexerClient(azure_search_endpoint, azure_credential)
-    # Upload the documents in /data folder to the blob storage container
-    blob_client = BlobServiceClient(
-        account_url=azure_storage_endpoint, credential=azure_credential,
-        max_single_put_size=4 * 1024 * 1024
-    )
-    container_client = blob_client.get_container_client(azure_storage_container)
+def upload_documents(
+    azure_search_credential,  # AzureKeyCredential for search
+    indexer_name,
+    azure_search_endpoint,
+    azure_storage_connection_string,  # connection string for blob
+    azure_storage_container,
+    skip_local_upload: bool = False,
+    file_name: str = None
+):
+    from azure.search.documents.indexes import SearchIndexerClient
+    from azure.storage.blob import BlobServiceClient
+    indexer_client = SearchIndexerClient(azure_search_endpoint, azure_search_credential)
+    blob_service_client = BlobServiceClient.from_connection_string(azure_storage_connection_string)
+    container_client = blob_service_client.get_container_client(azure_storage_container)
     if not container_client.exists():
         container_client.create_container()
-    existing_blobs = [blob.name for blob in container_client.list_blobs()]
 
-    # Open each file in /data folder
-    for file in os.scandir("data"):
-        with open(file.path, "rb") as opened_file:
-            filename = os.path.basename(file.path)
-            # Check if blob already exists
-            if filename in existing_blobs:
-                logger.info("Blob already exists, skipping file: %s", filename)
+    # Only do local uploads if not skipping
+    if not skip_local_upload:
+        existing_blobs = [blob.name for blob in container_client.list_blobs()]
+        if file_name:
+            file_path = os.path.join("data", file_name)
+            if os.path.exists(file_path):
+                with open(file_path, "rb") as opened_file:
+                    if file_name in existing_blobs:
+                        logger.info("Blob already exists, skipping file: %s", file_name)
+                    else:
+                        logger.info("Uploading blob for file: %s", file_name)
+                        container_client.upload_blob(file_name, opened_file, overwrite=True)
             else:
-                logger.info("Uploading blob for file: %s", filename)
-                blob_client = container_client.upload_blob(filename, opened_file, overwrite=True)
+                logger.warning(f"File {file_name} not found in data directory.")
+        else:
+            for file in os.scandir("data"):
+                with open(file.path, "rb") as opened_file:
+                    filename = os.path.basename(file.path)
+                    if filename in existing_blobs:
+                        logger.info("Blob already exists, skipping file: %s", filename)
+                    else:
+                        logger.info("Uploading blob for file: %s", filename)
+                        container_client.upload_blob(filename, opened_file, overwrite=True)
 
-    # Start the indexer
+    # Start the indexer (always runs the full indexer, Azure will only pick up new/changed blobs)
     try:
         indexer_client.run_indexer(indexer_name)
         logger.info("Indexer started. Any unindexed blobs should be indexed in a few minutes, check the Azure Portal for status.")
-    except ResourceExistsError:
-        logger.info("Indexer already running, not starting again")
+    except Exception as e:
+        logger.info(f"Indexer error: {e}")
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.WARNING, format="%(message)s", datefmt="[%X]", handlers=[RichHandler(rich_tracebacks=True)])
-    logger = logging.getLogger("voicerag")
-    logger.setLevel(logging.INFO)
+    #logging.basicConfig(level=logging.WARNING, format="%(message)s", datefmt="[%X]", handlers=[RichHandler(rich_tracebacks=True)])
+    # logger = logging.getLogger("voicerag")
+    # logger.setLevel(logging.INFO)
 
     logger = logging.getLogger("voicerag")
 
@@ -256,5 +288,5 @@ if __name__ == "__main__":
     upload_documents(azure_credential,
         indexer_name=AZURE_SEARCH_INDEX,
         azure_search_endpoint=AZURE_SEARCH_ENDPOINT,
-        azure_storage_endpoint=AZURE_STORAGE_ENDPOINT,
+        azure_storage_connection_string=AZURE_STORAGE_CONNECTION_STRING,
         azure_storage_container=AZURE_STORAGE_CONTAINER)
