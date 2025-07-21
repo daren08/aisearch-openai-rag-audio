@@ -72,3 +72,8 @@ export type ExtensionMiddleTierToolResponse = {
 export type ToolResult = {
     sources: { chunk_id: string; title: string; chunk: string }[];
 };
+
+export interface SystemMessageCommand {
+    type: "system_message";
+    system_message: string;
+}
